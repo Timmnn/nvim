@@ -26,6 +26,10 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   require 'plugins.theme',
   require 'plugins.oil',
+  require 'plugins.tabnine',
+  require 'plugins.autosession',
+  require 'plugins.autoclose',
+  -- require 'plugins.github-copilot',
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
@@ -674,7 +678,6 @@ require('lazy').setup({
     },
   },
 })
-
 
 vim.cmd.colorscheme 'catppuccin'
 
