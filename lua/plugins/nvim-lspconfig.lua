@@ -162,7 +162,17 @@ return {
       --
       -- But for many setups, the LSP (`tsserver`) will work just fine
       tsserver = {},
-      --
+      alex = {},
+      docker_compose_language_service = {},
+      dockerls = {},
+      emmet_language_server = {},
+      jsonls = {},
+      lua_ls = {},
+      prettier = {},
+      stylua = {},
+      svelte = {},
+      tailwindcss = {},
+  
 
       lua_ls = {
         -- cmd = {...},
