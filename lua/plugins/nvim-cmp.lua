@@ -33,15 +33,22 @@ return { -- Autocompletion
     --  into multiple repos for maintenance purposes.
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-path',
-    'tzachar/cmp-ai', -- AI Completions
-    'onsails/lspkind.nvim', -- Icons in Autocomplete,
+    'tzachar/cmp-ai',                      -- AI Completions
+    'onsails/lspkind.nvim',                -- Icons in Autocomplete,
     'hrsh7th/cmp-nvim-lsp-signature-help', -- Signature Help
   },
   config = function()
     -- See `:help cmp`
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'
-    luasnip.config.setup {}
+    luasnip.config.setup {
+      dependencies = {
+        "rafamadriz/friendly-snippets"
+      },
+    }
+
+
+    require('luasnip.loaders.from_vscode').lazy_load()
 
     local lspkind = require 'lspkind'
 
@@ -54,10 +61,10 @@ return { -- Autocompletion
       formatting = {
         format = lspkind.cmp_format {
           mode = 'symbol', -- show only symbol annotations
-          maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+          maxwidth = 50,   -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
           -- can also be a function to dynamically calculate max width such as
           -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
-          ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+          ellipsis_char = '...',    -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
           show_labelDetails = true, -- show labelDetails in menu. Disabled by default
 
           -- The function below will be called before any actual modifications from lspkind
