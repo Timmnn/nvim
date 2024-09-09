@@ -18,6 +18,9 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+
+
+
 -- Make sure to setup `mapleader` and `maplocalleader` before
 -- loading lazy.nvim so that mappings are correct.
 -- This is also a good place to setup other settings (vim.opt)
@@ -84,7 +87,7 @@ require('lazy').setup {
     },
     require 'plugins.theme', -- Catppuccin Theme
 
-    { 'TabbyML/vim-tabby' },
+    -- { 'TabbyML/vim-tabby' },
 
     {
       'tpope/vim-fugitive',
@@ -98,6 +101,7 @@ require('lazy').setup {
     'tpope/vim-sleuth',                -- Detect tabstop and shiftwidth automatically
     require 'plugins.whichkey',        -- Keybind Helper
     require 'plugins.gitsigns',        -- Git Signs
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' },
     require 'plugins.telescope',       -- Fuzzy Finder
     require 'plugins.feline',          -- Status Line
     require 'plugins.nvim-lspconfig',  -- Collection of LSP Configs
@@ -114,3 +118,7 @@ vim.cmd.colorscheme 'catppuccin'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et:
+
+-- Needed on windows
+require 'nvim-treesitter.install'.compilers = { "clang" }
+vim.api.nvim_set_keymap('n', '<leader>tg', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true })
