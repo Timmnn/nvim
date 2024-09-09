@@ -1,39 +1,12 @@
 require 'opts'
 require 'keymap'
+require 'lazy_install'
 
--- Bootstrap lazy.nvim
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { 'Failed to clone lazy.nvim:\n', 'ErrorMsg' },
-      { out,                            'WarningMsg' },
-      { '\nPress any key to exit...' },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
-end
-vim.opt.rtp:prepend(lazypath)
-
-
-
-
--- Make sure to setup `mapleader` and `maplocalleader` before
--- loading lazy.nvim so that mappings are correct.
--- This is also a good place to setup other settings (vim.opt)
-vim.g.mapleader = ' '
-vim.g.maplocalleader = '\\'
 
 -- Install Plugins
 require('lazy').setup {
   spec = {
-    {
-      'williamboman/mason.nvim',
-      opts = {},
-    },
+    require 'plugins.mason',
     {
       "tadmccorkle/markdown.nvim",
       ft = "markdown", -- or 'event = "VeryLazy"'
@@ -44,77 +17,76 @@ require('lazy').setup {
         require('markdown').setup({})
       end
     },
-    {
-      'stevearc/conform.nvim',
-      event = {
-        'BufReadPre',
-        'BufNewFile',
-      },
-      config = function()
-        local conform = require 'conform'
-        conform.setup {
-          formatters_by_ft = {
-            javascript = {
-              'prettier',
-            },
-            typescript = {
-              'prettier',
-            },
-            javascriptreact = {
-              'prettier',
-            },
-            typescriptreact = {
-              'prettier',
-            },
-            json = {
-              "prettier"
-            }
-          },
-          format_on_save = {
-            lsp_fallback = true,
-            async = false,
-            timeout = 1000,
-          },
-        }
-        vim.keymap.set({ 'n', 'v' }, '<leader>mp', function()
-          conform.format {
-            lsp_fallback = true,
-            async = false,
-            timeout = 1000,
-          }
-        end, { desc = 'Format file or range(in visual mode)' })
-      end,
-    },
     require 'plugins.theme', -- Catppuccin Theme
 
     -- { 'TabbyML/vim-tabby' },
 
     {
       'tpope/vim-fugitive',
-      lazy = false,                    -- load it on startup
+      lazy = false,                -- load it on startup
     },
-    require 'plugins.oil',             -- File Explorer
+    require 'plugins.oil',         -- File Explorer
     -- require 'plugins.tabnine', -- Local Github Copilot Alternativ
-    require 'plugins.autosession',     -- Session Manager
+    require 'plugins.autosession', -- Session Manager
     -- require 'plugins.autoclose', -- Autoclose Brackets (Replaced)
-    require 'plugins.auto-pairs',      -- Autoclose Brackets
-    'tpope/vim-sleuth',                -- Detect tabstop and shiftwidth automatically
-    require 'plugins.whichkey',        -- Keybind Helper
-    require 'plugins.gitsigns',        -- Git Signs
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' },
-    require 'plugins.telescope',       -- Fuzzy Finder
-    require 'plugins.feline',          -- Status Line
-    require 'plugins.nvim-lspconfig',  -- Collection of LSP Configs
-    require 'plugins.conform',         -- File Formatter
+    require 'plugins.auto-pairs',  -- Autoclose Brackets
+    'tpope/vim-sleuth',            -- Detect tabstop and shiftwidth automatically
+    require 'plugins.whichkey',    -- Keybind Helper
+    require 'plugins.gitsigns',    -- Git Signs
+    require 'plugins.telescope',   -- Fuzzy Finder
+    require 'plugins.feline',      -- Status Line
+    {
+      "mbbill/undotree"
+    },
+    require 'plugins.nvim-lspconfig', -- Collection of LSP Configs
+    require 'plugins.conform',        -- File Formatter
     -- require 'plugins.luvit-meta', -- ?
-    require 'plugins.nvim-cmp',        -- Autocompletion
-    require 'plugins.todo-comments',   -- Todo Commen0ts
-    -- require 'plugins.mini', -- ?
-    require 'plugins.nvim-treesitter', -- Navigating Syntax Tree
-  },
+    require 'plugins.nvim-cmp',       -- Autocompletion
+
+
+    -- Luasnip (required for snippets)
+    {
+      'L3MON4D3/LuaSnip',
+      version = '1.*',
+      config = function()
+        require('luasnip.loaders.from_vscode').lazy_load()
+
+        vim.keymap.set({ "i", "s" }, "<C-k>", function()
+          if require("luasnip").expand_or_jumpable() then
+            require("luasnip").expand_or_jump()
+          end
+        end, { silent = true })
+
+        vim.keymap.set({ "i", "s" }, "<C-j>", function()
+          if require("luasnip").jumpable(-1) then
+            require("luasnip").jump(-1)
+          end
+        end, { silent = true })
+      end,
+    },
+
+
+    -- Friendly snippets (set of preconfigured snippets)
+    {
+      'rafamadriz/friendly-snippets',
+      dependencies = { 'L3MON4D3/LuaSnip' },
+    },
+    {
+      "nvim-neo-tree/neo-tree.nvim",
+      branch = "v3.x",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+        "MunifTanjim/nui.nvim",
+        -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+      }
+    }
+  }
 }
 
 vim.cmd.colorscheme 'catppuccin'
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et:
