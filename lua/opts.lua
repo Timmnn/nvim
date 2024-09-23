@@ -1,12 +1,13 @@
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 
 if vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1 then
-  vim.o.shell = "powershell.exe" -- use powershell on windows
+  vim.o.shell = "powershell" -- use powershell on windows
+  vim.g.undotree_DiffCommand = "FC"
 end
-vim.opt.tabstop = 2                                                         -- size of a hard tabstop (ts).
-vim.opt.shiftwidth = 2                                                      -- size of an indentation (sw).
-vim.opt.expandtab = true                                                    -- always uses spaces instead of tab characters (et).
-vim.opt.softtabstop = 2                                                     -- number of spaces a <Tab> counts for. When 0, feature is off (sts).
+vim.opt.tabstop = 2      -- size of a hard tabstop (ts).
+vim.opt.shiftwidth = 2   -- size of an indentation (sw).
+vim.opt.expandtab = true -- always uses spaces instead of tab characters (et).
+vim.opt.softtabstop = 2  -- number of spaces a <Tab> counts for. When 0, feature is off (sts).
 
 vim.opt.termguicolors = true
 

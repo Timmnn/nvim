@@ -21,6 +21,8 @@ return
         typescriptreact = {
           'prettier',
         },
+        tsx = { "prettier" },
+        ["d.ts"] = { "prettier" }, -- For .d.ts files
         json = {
           "prettier"
         }
