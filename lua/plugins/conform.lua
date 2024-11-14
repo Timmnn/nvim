@@ -12,6 +12,9 @@ return
         javascript = {
           'prettier',
         },
+        vue = {
+          'prettier'
+        },
         typescript = {
           'prettier',
         },
