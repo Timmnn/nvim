@@ -9,6 +9,70 @@ require 'lazy_install'
 require('lazy').setup {
   spec = {
     require 'plugins.mason',
+
+
+    {
+      'nvim-treesitter/nvim-treesitter',
+      build = ':TSUpdate'
+    },
+
+    --[[{
+      'glepnir/dashboard-nvim',
+      event = 'VimEnter',
+      config = function()
+        local dashboard = require('dashboard')
+        local pokemon = require('pokemon')
+
+        -- Define a list of Pokédex numbers (as strings) for the Pokémon you want to pick from
+        local pokemon_list = { '0393.1', '0001.1', '0004.1', '0007.1', '0025.1' } -- Example: Piplup (#393), Bulbasaur (#1), Charmander (#4), Squirtle (#7), Pikachu (#25)
+
+        -- Function to pick a random Pokémon from the list
+        local function pick_random_pokemon()
+          math.randomseed(os.time())                        -- Initialize random seed
+          return pokemon_list[math.random(#pokemon_list)]   -- Pick a random Pokémon from the list
+        end
+
+        pokemon.setup({
+          number = pick_random_pokemon(),   -- Set the random Pokémon number
+          size = 'auto',                    -- Adjust size automatically
+        })
+
+        dashboard.setup {
+          config = {
+            header = pokemon.header()     -- Set the header to the selected Pokémon ASCII art
+          }
+        }
+      end,
+      dependencies = {
+        { 'nvim-tree/nvim-web-devicons', 'ColaMint/pokemon.nvim' }
+      }
+    },]] --
+    {
+      "folke/flash.nvim",
+      event = "VeryLazy",
+      ---@type Flash.Config
+      opts = {},
+      -- stylua: ignore
+      keys = {
+        { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+        { "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+        { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+        { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+        { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
+      },
+    },
+
+    {
+      "supermaven-inc/supermaven-nvim",
+      config = function()
+        require("supermaven-nvim").setup({
+          keymaps = {
+            accept_suggestion = "<S-Tab>",
+          }
+        })
+      end,
+    },
+
     {
       "tadmccorkle/markdown.nvim",
       ft = "markdown", -- or 'event = "VeryLazy"'

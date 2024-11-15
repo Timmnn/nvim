@@ -1,4 +1,5 @@
-return {
+return {}
+--[[ return {
   'rmagatti/auto-session',
   lazy = false,
   dependencies = {
@@ -10,3 +11,4 @@ return {
     }
   end,
 }
+]] --

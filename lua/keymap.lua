@@ -46,3 +46,13 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 vim.keymap.set('n', '<leader>st', ':lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
+
+
+
+vim.api.nvim_create_user_command(
+  'Bc',
+  function()
+    vim.cmd('bp | sp | bn | bd')
+  end,
+  {}
+)
