@@ -1,5 +1,8 @@
-return
-{
+-- https://github.com/stevearc/conform.nvim
+-- Formatter for Neovim
+
+
+return {
   'stevearc/conform.nvim',
   event = {
     'BufReadPre',
@@ -21,14 +24,20 @@ return
         javascriptreact = {
           'prettier',
         },
-        typescriptreact = {
+        scss = {
           'prettier',
+        },
+        typescriptreact = {
+          'prettier'
         },
         tsx = { "prettier" },
         ["d.ts"] = { "prettier" }, -- For .d.ts files
         json = {
           "prettier"
-        }
+        },
+        rust = {
+          "rustfmt"
+        },
       },
       format_on_save = {
         lsp_fallback = true,

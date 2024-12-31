@@ -9,7 +9,7 @@ return {
 
     -- Useful status updates for LSP.
     -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-    { 'j-hui/fidget.nvim', opts = {} },
+    { 'j-hui/fidget.nvim',       opts = {} },
 
     -- Allows extra capabilities provided by nvim-cmp
     'hrsh7th/cmp-nvim-lsp',
@@ -161,7 +161,7 @@ return {
       --    https://github.com/pmizio/typescript-tools.nvim
       --
       -- But for many setups, the LSP (`tsserver`) will work just fine
-      tsserver = {},
+      -- tsserver = {},
       alex = {},
       docker_compose_language_service = {},
       dockerls = {},
@@ -172,7 +172,29 @@ return {
       stylua = {},
       svelte = {},
       tailwindcss = {},
-  
+      pyright = {
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "basic", -- Optional: Customize type checking
+            },
+          },
+        },
+        on_attach = function(client, bufnr)
+          -- Automatically detect and use a virtual environment
+          local venv_dirs = { ".venv", "env", "venv" } -- Common venv names
+          local cwd = vim.fn.getcwd()                  -- Current working directory
+          for _, venv in ipairs(venv_dirs) do
+            local python_bin = cwd .. "/" .. venv .. "/bin/python"
+            if vim.loop.fs_stat(python_bin) then
+              client.config.settings.python.pythonPath = python_bin
+              client.notify("workspace/didChangeConfiguration")
+              break
+            end
+          end
+        end,
+      },
+
 
       lua_ls = {
         -- cmd = {...},
