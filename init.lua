@@ -10,12 +10,64 @@ require('lazy').setup {
   spec = {
     require 'plugins.mason',
 
+    {
+      'zaldih/themery.nvim',
+      dependencies = {
+        'nvim-telescope/telescope.nvim', -- Required for Telescope integration
+        'folke/tokyonight.nvim',
+        'gruvbox-community/gruvbox',
+        'joshdick/onedark.vim',
+        'catppuccin/nvim',
+        'Mofiqul/dracula.nvim'
+      },
+      config = function()
+        require('themery').setup({
+          themes = {
+            'tokyonight',
+            'gruvbox',
+            'onedark',
+            'dracula',
+            'catppuccin-macchiato'
+          },
+        })
+      end
+    },
 
+    {
+      "marcussimonsen/let-it-snow.nvim",
+      cmd = "LetItSnow", -- Wait with loading until command is run
+      opts = {
+        delay = 5
+      },
+    },
     {
       'nvim-treesitter/nvim-treesitter',
       build = ':TSUpdate'
     },
 
+    {
+      "ray-x/go.nvim",
+      dependencies = { -- optional packages
+        "ray-x/guihua.lua",
+        "neovim/nvim-lspconfig",
+        "nvim-treesitter/nvim-treesitter",
+      },
+      config = function()
+        require("go").setup()
+      end,
+      event = { "CmdlineEnter" },
+      ft = { "go", 'gomod' },
+      build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+    },
+
+    {
+      'charlespascoe/vim-go-syntax',
+      ft = "go", -- Load only for Go files
+      config = function()
+        -- Optional: Any additional settings for this plugin can go here.
+      end
+    }
+    ,
     --[[{
       'glepnir/dashboard-nvim',
       event = 'VimEnter',
@@ -48,21 +100,34 @@ require('lazy').setup {
       }
     },]] --
     {
-      "folke/flash.nvim",
-      event = "VeryLazy",
-      ---@type Flash.Config
-      opts = {},
-      -- stylua: ignore
-      keys = {
-        { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
-        { "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
-        { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
-        { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-        { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
-      },
+      'nvim-treesitter/playground',
+      cmd = "TSPlaygroundToggle",
+      config = function()
+        require("nvim-treesitter.configs").setup {
+          playground = {
+            enable = true,           -- Enable the playground
+            updatetime = 25,         -- Debounced time for highlighting nodes
+            persist_queries = false, -- Whether queries persist across sessions
+          },
+        }
+      end
+    }
+    , {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    ---@type Flash.Config
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+      { "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+      { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+      { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     },
+  },
 
-    {
+    --[[{
       "supermaven-inc/supermaven-nvim",
       config = function()
         require("supermaven-nvim").setup({
@@ -71,7 +136,7 @@ require('lazy').setup {
           }
         })
       end,
-    },
+    },]] --
 
     {
       "tadmccorkle/markdown.nvim",
@@ -96,12 +161,11 @@ require('lazy').setup {
     require 'plugins.autosession', -- Session Manager
     -- require 'plugins.autoclose', -- Autoclose Brackets (Replaced)
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' },
-    require 'plugins.auto-pairs', -- Autoclose Brackets
-    'tpope/vim-sleuth',           -- Detect tabstop and shiftwidth automatically
-    require 'plugins.whichkey',   -- Keybind Helper
-    require 'plugins.gitsigns',   -- Git Signs
-    require 'plugins.telescope',  -- Fuzzy Finder
-    require 'plugins.feline',     -- Status Line
+    'tpope/vim-sleuth',          -- Detect tabstop and shiftwidth automatically
+    require 'plugins.whichkey',  -- Keybind Helper
+    require 'plugins.gitsigns',  -- Git Signs
+    require 'plugins.telescope', -- Fuzzy Finder
+    require 'plugins.feline',    -- Status Line
     {
       "mbbill/undotree"
     },
