@@ -72,33 +72,15 @@ require('lazy').setup {
       'glepnir/dashboard-nvim',
       event = 'VimEnter',
       config = function()
-        local dashboard = require('dashboard')
-        local pokemon = require('pokemon')
+        require("venv-lsp").init()
+      end
+    },
+    require 'plugins.mason',
+    require 'plugins.todo-comments',
+    { "evanleck/vim-svelte" },
+    require 'plugins.nvim-treesitter',
+    require 'plugins.dashboard',
 
-        -- Define a list of Pokédex numbers (as strings) for the Pokémon you want to pick from
-        local pokemon_list = { '0393.1', '0001.1', '0004.1', '0007.1', '0025.1' } -- Example: Piplup (#393), Bulbasaur (#1), Charmander (#4), Squirtle (#7), Pikachu (#25)
-
-        -- Function to pick a random Pokémon from the list
-        local function pick_random_pokemon()
-          math.randomseed(os.time())                        -- Initialize random seed
-          return pokemon_list[math.random(#pokemon_list)]   -- Pick a random Pokémon from the list
-        end
-
-        pokemon.setup({
-          number = pick_random_pokemon(),   -- Set the random Pokémon number
-          size = 'auto',                    -- Adjust size automatically
-        })
-
-        dashboard.setup {
-          config = {
-            header = pokemon.header()     -- Set the header to the selected Pokémon ASCII art
-          }
-        }
-      end,
-      dependencies = {
-        { 'nvim-tree/nvim-web-devicons', 'ColaMint/pokemon.nvim' }
-      }
-    },]] --
     {
       'nvim-treesitter/playground',
       cmd = "TSPlaygroundToggle",
@@ -154,11 +136,11 @@ require('lazy').setup {
 
     {
       'tpope/vim-fugitive',
-      lazy = false,                -- load it on startup
+      lazy = false,        -- load it on startup
     },
-    require 'plugins.oil',         -- File Explorer
+    require 'plugins.oil', -- File Explorer
     -- require 'plugins.tabnine', -- Local Github Copilot Alternativ
-    require 'plugins.autosession', -- Session Manager
+    -- require 'plugins.autosession', -- Session Manager
     -- require 'plugins.autoclose', -- Autoclose Brackets (Replaced)
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' },
     'tpope/vim-sleuth',          -- Detect tabstop and shiftwidth automatically

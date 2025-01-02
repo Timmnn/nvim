@@ -1,3 +1,7 @@
+-- https://github.com/williamboman/mason.nvim
+-- Mason is a package manager for Neovim that allows you to easily install and manage LSP servers, DAP servers, linters, and formatters.
+-- TODO: I dont use this at the moment
+
 return { -- Collection of various small independent plugins/modules
   'echasnovski/mini.nvim',
   config = function()

@@ -56,3 +56,6 @@ vim.api.nvim_create_user_command(
   end,
   {}
 )
+
+-- Bind <leader>tt to :TodoTelescope
+vim.keymap.set('n', '<leader>tt', ':TodoTelescope<CR>', { noremap = true, silent = true })
