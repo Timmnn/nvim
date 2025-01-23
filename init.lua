@@ -1,6 +1,15 @@
 require 'opts'
 require 'keymap'
+
 require 'lazy_install'
+
+
+-- Neovide
+vim.g.neovide_scale_factor = 0.65
+vim.g.neovide_scroll_animation_length = 0
+vim.g.neovide_cursor_trail_size = 0
+vim.g.neovide_cursor_animate_command_line = false
+vim.o.guifont = "Source Code Pro:h14"
 
 
 --TODO: folding functions: showing function headers on top of window (um zu sehen in welche funtion man ist)
@@ -74,7 +83,7 @@ require('lazy').setup {
       config = function()
         require("venv-lsp").init()
       end
-    },
+    }, ]]--
     require 'plugins.mason',
     require 'plugins.todo-comments',
     { "evanleck/vim-svelte" },
