@@ -8,6 +8,12 @@ vim.g.mapleader = " "
 
 vim.wo.number = true
 
-vim.o.cmdheight = 0
-
 vim.opt.signcolumn = "yes"
+
+vim.opt.clipboard:append("unnamedplus")
+
+vim.opt.whichwrap:append("<,>,h,l")
+
+vim.g.have_nerd_font = true
+
+vim.cmd("highlight Normal guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE")

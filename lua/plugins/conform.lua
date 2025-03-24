@@ -8,10 +8,14 @@ return {
 				python = { "black" }, -- Use black for Python files
 				javascript = { "prettier" }, -- Use prettier for JavaScript files
 				typescript = { "prettier" }, -- Use prettier for TypeScript files
+				javascriptreact = { "prettier" }, -- Use prettier for React (JavaScript) files
+				typescriptreact = { "prettier" }, -- Use prettier for React (TypeScript) files
 				html = { "prettier" }, -- Use prettier for HTML files
 				css = { "prettier" }, -- Use prettier for CSS files
 				json = { "prettier" }, -- Use prettier for JSON files
 				markdown = { "prettier" }, -- Use prettier for Markdown files
+				rust = { "rustfmt" }, -- Use rustfmt for Rust files
+				go = { "gofmt", "goimports" }, -- Use gofmt and goimports for Go files
 				-- Add more filetypes and formatters as needed
 			},
 			-- Optional: Enable format-on-save

@@ -20,6 +20,8 @@ return {
 			local lspconfig = require("lspconfig")
 			lspconfig.lua_ls.setup({})
 			lspconfig.rust_analyzer.setup({})
+			lspconfig.emmet_language_server.setup({})
+			lspconfig.ts_ls.setup({})
 
 			vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover)
 			vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float)
