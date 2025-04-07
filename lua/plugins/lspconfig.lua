@@ -192,11 +192,8 @@ return {
       rust_analyzer = {
         settings = {
           ['rust-analyzer'] = {
-            cargo = {
-              loadOutDirsFromCheck = true,
-            },
-            procMacro = {
-              enable = true,
+            checkOnSave = {
+              command = 'clippy',
             },
           },
         },
